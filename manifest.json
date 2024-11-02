@@ -2,6 +2,14 @@
   "manifest_version": 3,
   "name": "Cookie Adder",
   "version": "1.0",
+  "permissions": [
+    "cookies",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": "mask.png"
