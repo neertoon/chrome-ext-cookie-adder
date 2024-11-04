@@ -16,40 +16,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     button.textContent = textProd;
                     gcCookieAddProdClass(button)
                     button.onclick = () => {
-                        chrome.cookies.remove({ url: url.origin, name: cookieName }, (details) => {
-                            if (chrome.runtime.lastError) {
-                                console.error(chrome.runtime.lastError.message);
-                            } else {
-                                console.log("Cookie removed:", details);
-                                // alert("Ciasteczko zostało usunięte!");
-                                button.textContent = textLocal; // Zmiana tekstu po usunięciu
-                                gcCookieAddLocalClass(button);
-                            }
-                        });
+                        gcCookieRemove(url, button, cookieName, textLocal);
                     };
                 } else {
                     button.textContent = textLocal;
                     gcCookieAddLocalClass(button);
                     button.onclick = () => {
-                        chrome.cookies.set({
-                            url: url.origin,
-                            name: cookieName,
-                            value: cookieValue,
-                            domain: url.hostname,
-                            path: "/",
-                            secure: true,
-                            sameSite: "lax",
-                            expirationDate: Math.floor(Date.now() / 1000) + 3600 // ważne przez godzinę
-                        }, (cookie) => {
-                            if (chrome.runtime.lastError) {
-                                console.error(chrome.runtime.lastError.message);
-                            } else {
-                                console.log("Cookie added:", cookie);
-                                // alert("Dodano ciasteczko!");
-                                button.textContent = textProd; // Zmiana tekstu po dodaniu
-                                gcCookieAddProdClass(button)
-                            }
-                        });
+                        gcCookieAdd(url, button, cookieName, cookieValue, textProd);
                     };
                 }
             });
@@ -66,4 +39,39 @@ function gcCookieAddLocalClass(button) {
 function gcCookieAddProdClass(button) {
     button.classList.remove('local');
     button.classList.add('prod');
+}
+
+function gcCookieRemove(url, button, cookieName, buttonText) {
+    chrome.cookies.remove({ url: url.origin, name: cookieName }, (details) => {
+        if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError.message);
+        } else {
+            console.log("Cookie removed:", details);
+            // alert("Ciasteczko zostało usunięte!");
+            button.textContent = buttonText; // Zmiana tekstu po usunięciu
+            gcCookieAddLocalClass(button);
+        }
+    });
+}
+
+function gcCookieAdd(url, button, cookieName, cookieValue, buttonText) {
+    chrome.cookies.set({
+        url: url.origin,
+        name: cookieName,
+        value: cookieValue,
+        domain: url.hostname,
+        path: "/",
+        secure: true,
+        sameSite: "lax",
+        expirationDate: Math.floor(Date.now() / 1000) + 3600 // ważne przez godzinę
+    }, (cookie) => {
+        if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError.message);
+        } else {
+            console.log("Cookie added:", cookie);
+            // alert("Dodano ciasteczko!");
+            button.textContent = buttonText; // Zmiana tekstu po dodaniu
+            gcCookieAddProdClass(button)
+        }
+    });
 }
