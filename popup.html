@@ -9,26 +9,55 @@
             width: 100%;
         }
 
+        table {
+            padding: 10px;
+        }
+
+        table td:first-of-type {
+            padding: 0 20px;
+            font-size: 18px;
+        }
+
+        td button.local {
+            background-color: forestgreen;
+        }
+
+        td button:hover {
+            text-decoration: line-through;
+        }
+
+        td button.local:hover {
+            background-color: crimson;
+        }
+
+        td button.prod {
+            background-color: crimson;
+        }
+
+        td button.prod:hover {
+            background-color: forestgreen;
+        }
+
         #cookie-button {
-            background: linear-gradient(45deg, #1e90ff, #00bfff);
+            color: white;
             border: none;
             /*border-radius: 12px;*/
-            color: white;
-            padding: 15px 15px; /* Zwiększone padding, aby przycisk był wyższy */
+            padding: 10px 10px; /* Zwiększone padding, aby przycisk był wyższy */
             text-align: center;
             font-size: 16px;
             width: 100%; /* Przycisk zajmuje całą szerokość */
             cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        #cookie-button:hover {
-            background: linear-gradient(45deg, #00bfff, #1e90ff);
+            transition: background-color ease 0.5s;
         }
     </style>
 </head>
 <body>
-<button id="cookie-button">Sprawdzanie...</button>
+<table>
+    <tr>
+        <td>VITE</td>
+        <td><button id="cookie-button">...</button></td>
+    </tr>
+</table>
 <script src="popup.js"></script>
 </body>
 </html>
