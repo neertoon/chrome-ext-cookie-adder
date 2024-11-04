@@ -15,17 +15,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (cookie) {
                     button.textContent = textProd;
                     gcCookieAddProdClass(button)
-                    button.onclick = () => {
-                        gcCookieRemove(url, button, cookieName, textLocal);
-                    };
                 } else {
                     button.textContent = textLocal;
                     gcCookieAddLocalClass(button);
-                    button.onclick = () => {
-                        gcCookieAdd(url, button, cookieName, cookieValue, textProd);
-                    };
                 }
             });
+
+            button.onclick = () => {
+                chrome.cookies.get({ url: url.origin, name: cookieName }, (cookie) => {
+                    if (cookie) {
+                        gcCookieRemove(url, button, cookieName, textLocal);
+                    } else {
+                        gcCookieAdd(url, button, cookieName, cookieValue, textProd);
+                    }
+                });
+            };
         }
     });
 });
